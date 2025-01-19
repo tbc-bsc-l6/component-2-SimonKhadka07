@@ -8,11 +8,12 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource (Products Page).
      */
     public function index()
     {
-        //
+        $products = Product::all(); // Fetch all products
+        return view('products.index', compact('products')); // Pass products to the view
     }
 
     /**
@@ -20,7 +21,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('products.create'); // Show the create product form
     }
 
     /**
@@ -28,7 +29,18 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate the form data
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'description' => 'nullable|string',
+        ]);
+
+        // Create a new product
+        Product::create($request->all());
+
+        // Redirect to the product index page with success message
+        return redirect()->route('products.index')->with('success', 'Product created successfully!');
     }
 
     /**
@@ -36,7 +48,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return view('products.show', compact('product')); // Pass the product to the view
     }
 
     /**
@@ -44,7 +56,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        return view('products.edit', compact('product')); // Pass the product to the edit form
     }
 
     /**
@@ -52,7 +64,18 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        // Validate the form data
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'description' => 'nullable|string',
+        ]);
+
+        // Update the product with new data
+        $product->update($request->all());
+
+        // Redirect to the product index page with success message
+        return redirect()->route('products.index')->with('success', 'Product updated successfully!');
     }
 
     /**
@@ -60,6 +83,9 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete(); // Delete the product
+
+        // Redirect to the product index page with success message
+        return redirect()->route('products.index')->with('success', 'Product deleted successfully!');
     }
 }
