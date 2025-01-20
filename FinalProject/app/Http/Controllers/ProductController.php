@@ -88,4 +88,11 @@ class ProductController extends Controller
         // Redirect to the product index page with success message
         return redirect()->route('products.index')->with('success', 'Product deleted successfully!');
     }
+
+    public function catalog()
+    {
+        $products = Product::all(); // Fetch all products
+        return view('catalog.index', compact('products'));
+    }
+
 }

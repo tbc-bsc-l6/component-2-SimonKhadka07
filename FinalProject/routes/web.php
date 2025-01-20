@@ -4,31 +4,37 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 
-// Welcome Page Route
+// Public Routes
 Route::get('/', function () {
     return view('welcome');
-})->name('welcome'); // This names the route 'welcome', so you can reference it easily.
+})->name('welcome');
 
-// Home Page Route
-Route::get('/home', [HomeController::class, 'index'])->name('home'); // Maps to HomeController@index
+// Authenticated User Routes
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-// Authenticated Routes (Require Login)
+// Grouped Routes for Authenticated Users
 Route::middleware([
-    'auth:sanctum', // Uses Sanctum for authentication
+    'auth:sanctum',
     config('jetstream.auth_session'),
-    'verified', // Ensures email verification
+    'verified',
 ])->group(function () {
+    
     // Dashboard Route
     Route::get('/dashboard', function () {
-        return view('dashboard'); // Points to the 'dashboard.blade.php' file
+        return view('dashboard');
     })->name('dashboard');
-
-    // Product Routes
-    Route::resource('products', ProductController::class); // Maps CRUD routes for ProductController
-
-    Route::prefix('admin')->middleware(['auth'])->group(function () {
-        Route::resource('products', ProductController::class);
-    });
     
+    // Admin-Specific Routes
+    Route::prefix('admin')->group(function () {
+        Route::view('/dashboard', 'admin.dashboard')->name('admin.dashboard'); // Admin Dashboard
+        Route::resource('products', ProductController::class);                 // Product Management
+    });
+
+    Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/remove/{product}', [CartController::class, 'remove'])->name('cart.remove');
+
+    Route::get('/catalog', [ProductController::class, 'catalog'])->name('products.catalog');
+
 
 });
