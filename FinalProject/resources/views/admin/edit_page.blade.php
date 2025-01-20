@@ -43,6 +43,18 @@
 
       <div class="page-content">
 
+        @if(session()->has('message'))
+
+        <div class="alert alert-success">
+
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+
+            {{session()->get('message') }}
+
+        </div>
+
+        @endif
+
         <h1 class="post_title">Update Post</h1>
 
 
@@ -75,7 +87,7 @@
 
 
             <div class="div_center">
-                <input type="submit" class="btn btn-primary">
+                <input type="submit" value="Updated" class="btn btn-primary">
             </div>
 
 
