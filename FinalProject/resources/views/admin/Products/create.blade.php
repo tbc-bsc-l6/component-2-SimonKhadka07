@@ -1,24 +1,13 @@
-@extends('layouts.app')
+<form method="POST" action="{{ route('admin.products.store') }}">
+    @csrf
+    <label for="name">Product Name</label>
+    <input type="text" id="name" name="name" required>
 
-@section('content')
-    <div class="container">
-        <h1>Add Product</h1>
+    <label for="price">Price</label>
+    <input type="number" id="price" name="price" required>
 
-        <form action="{{ route('products.store') }}" method="POST">
-            @csrf
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" name="name" id="name" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label for="price">Price</label>
-                <input type="number" name="price" id="price" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label for="description">Description</label>
-                <textarea name="description" id="description" class="form-control"></textarea>
-            </div>
-            <button type="submit" class="btn btn-success">Save</button>
-        </form>
-    </div>
-@endsection
+    <label for="description">Description</label>
+    <textarea id="description" name="description"></textarea>
+
+    <button type="submit">Create Product</button>
+</form>

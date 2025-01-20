@@ -7,26 +7,20 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource (Products Page).
-     */
+    // Display a listing of products for Admin (Product Management)
     public function index()
     {
         $products = Product::all(); // Fetch all products
-        return view('products.index', compact('products')); // Pass products to the view
+        return view('products.index', compact('products')); // Return products view
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Show form for creating a new product
     public function create()
     {
-        return view('products.create'); // Show the create product form
+        return view('products.create'); // Show create product form
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Store the newly created product in the database
     public function store(Request $request)
     {
         // Validate the form data
@@ -39,29 +33,23 @@ class ProductController extends Controller
         // Create a new product
         Product::create($request->all());
 
-        // Redirect to the product index page with success message
+        // Redirect to product list with success message
         return redirect()->route('products.index')->with('success', 'Product created successfully!');
     }
 
-    /**
-     * Display the specified resource.
-     */
+    // Show a single product's details
     public function show(Product $product)
     {
-        return view('products.show', compact('product')); // Pass the product to the view
+        return view('products.show', compact('product')); // Display product details
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    // Show form for editing a product
     public function edit(Product $product)
     {
-        return view('products.edit', compact('product')); // Pass the product to the edit form
+        return view('products.edit', compact('product')); // Show edit product form
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    // Update the product data
     public function update(Request $request, Product $product)
     {
         // Validate the form data
@@ -71,28 +59,26 @@ class ProductController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        // Update the product with new data
+        // Update the product
         $product->update($request->all());
 
-        // Redirect to the product index page with success message
+        // Redirect to product list with success message
         return redirect()->route('products.index')->with('success', 'Product updated successfully!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // Delete the product
     public function destroy(Product $product)
     {
-        $product->delete(); // Delete the product
+        $product->delete(); // Delete product
 
-        // Redirect to the product index page with success message
+        // Redirect to product list with success message
         return redirect()->route('products.index')->with('success', 'Product deleted successfully!');
     }
 
+    // Catalog page for users to view products
     public function catalog()
     {
-        $products = Product::all(); // Fetch all products
-        return view('catalog.index', compact('products'));
+        $products = Product::all(); // Fetch all products for catalog
+        return view('catalog.index', compact('products')); // Display the catalog view
     }
-
 }
