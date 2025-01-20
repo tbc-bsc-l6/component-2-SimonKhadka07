@@ -6,7 +6,7 @@ use App\Http\Controllers\AdminController;
 
 Route::get('/',[HomeController::class,'homepage']);
 
-Route::get('/home',[HomeController::class,'index']);
+Route::get('/home',[HomeController::class,'index'])->middleware('auth')->name('home');
 
 
 
