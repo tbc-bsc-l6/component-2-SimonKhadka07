@@ -16,7 +16,7 @@
       </div>
 
       <div style="text-align:center" class="col-md-">
-        <div><img style="padding: 20px; margin: auto;" src="/postimage/{{ $post->image}}" class="services_img">  </div>
+        <div><img style="padding: 20px" margin: auto;" src="/postimage/{{ $post->image}}" class="services_img">  </div>
         <h3><b>{{$post->title}}</b></h3>
 
         <h4>{{$post->description}}</h4>
